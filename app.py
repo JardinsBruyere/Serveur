@@ -46,7 +46,7 @@ def listeTable():
 def capteur():
     try:
         numTable=int(request.args.get('numTable'))
-        if(numTable==8):
+        if(numTable==7):
             sensorid=int(request.args.get('sensorid'))
             amount=int(request.args.get('amount'))
             startdate=request.args.get('startdate')
@@ -81,12 +81,13 @@ def capteur():
         tables = [t[0] for t in listeTables]                # On garde que le nom de chaque table
         t = tables[numTable]
         condition=" "
-        if numTable == 8:
+        if t == "RelevesCapteurs":
             if(not(startdate is None)):
                 condition+=" and DateAjout  >= "+ startdate
             if(not(enddate is None)):
                 condition+=" and DateAjout  <= "+ enddate
             cur.execute("SELECT * FROM RelevesCapteurs WHERE IdCapteur  = "+str(sensorid)+ condition +"order by DateAjout;")
+            print("SELECT * FROM RelevesCapteurs WHERE IdCapteur  = "+str(sensorid)+ condition +"order by DateAjout;");
         elif t == "AlerteRecu":
             cur.execute("SELECT * FROM AlerteRecu WHERE DateAjout > '"+timeLine+"';")
         elif t == "Composant":
