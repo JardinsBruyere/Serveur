@@ -20,7 +20,7 @@ def getSensor():
         print("date_added : {}".format(sensor['DateAjout']))
         print("sensor_id  : {}".format(sensor['IdCapteur']))
         print("value      : {}".format(sensor['Valeur']))
-        cur.execute("INSERT INTO RelevesCapteurs (`DateAjout`,`IdCapteur`,`Valeur`) VALUES('"+format(sensor['DateAjout'])+"',"+format(sensor['IdCapteur'])+","+format(sensor['Valeur'])+");")
+        cur.execute("INSERT INTO SensorReading (SensorId,DateAdded,Value) VALUES('"+format(sensor['DateAjout'])+"',"+format(sensor['IdCapteur'])+","+format(sensor['Valeur'])+");")
     f = conn.commit()                                 #On insert les données dans la DB
     cur.close()
     conn.close()

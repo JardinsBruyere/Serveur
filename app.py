@@ -24,7 +24,7 @@ def home():
 def nbCapteur():
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
-    cur.execute("SELECT count(DISTINCT IdCapteur) FROM RelevesCapteurs;")
+    cur.execute("SELECT count(*) FROM Sensor;")
     listeTables = cur.fetchall()
     cur.close()
     conn.close()    
@@ -46,7 +46,7 @@ def listeTable():
 def capteur():
     try:
         numTable=int(request.args.get('numTable'))
-        if(numTable==7):
+        if(numTable==10):
             sensorid=int(request.args.get('sensorid'))
             amount=int(request.args.get('amount'))
             startdate=request.args.get('startdate')
@@ -81,17 +81,19 @@ def capteur():
         tables = [t[0] for t in listeTables]                # On garde que le nom de chaque table
         t = tables[numTable]
         condition=" "
-        if t == "RelevesCapteurs":
+        if t == "SensorReading":
             if(not(startdate is None)):
-                condition+=" and DateAjout  >= "+ startdate
+                print(datetime.fromtimestamp(int(startdate)))
+                condition+=" and DateAdded  >= \""+ str(datetime.fromtimestamp(int(startdate)))+"\" "
             if(not(enddate is None)):
-                condition+=" and DateAjout  <= "+ enddate
-            cur.execute("SELECT * FROM RelevesCapteurs WHERE IdCapteur  = "+str(sensorid)+ condition +"order by DateAjout;")
-            print("SELECT * FROM RelevesCapteurs WHERE IdCapteur  = "+str(sensorid)+ condition +"order by DateAjout;");
+       #         print(datetime.fromtimestamp(int(enddate)))
+                condition+=" and DateAdded  <= \""+ str(datetime.fromtimestamp(int(enddate)))+"\" "
+            print("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;");
+            cur.execute("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;")
         elif t == "AlerteRecu":
             cur.execute("SELECT * FROM AlerteRecu WHERE DateAjout > '"+timeLine+"';")
-        elif t == "Composant":
-            cur.execute("SELECT * FROM Composant WHERE DateAjout > '"+timeLine+"';")
+        elif t == "Sensor":
+            cur.execute("SELECT * FROM Sensor WHERE DateAjout > '"+timeLine+"';")
         else:
             cur.execute("SELECT * FROM "+t)         #On recupere toutes les donnees d'un table
         
