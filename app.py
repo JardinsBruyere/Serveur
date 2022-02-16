@@ -46,7 +46,7 @@ def listeTable():
 def capteur():
     try:
         numTable=int(request.args.get('numTable'))
-        if(numTable==10):
+        if(numTable==3):
             sensorid=int(request.args.get('sensorid'))
             amount=int(request.args.get('amount'))
             startdate=request.args.get('startdate')
@@ -55,7 +55,7 @@ def capteur():
         currentTimestamp=datetime.now()                     # On récupère la date d'aujourd'hui
         date_dt=currentTimestamp.strftime("%Y-%m-%d %H:%M:%S")      #strftime permet de forcer le format de la date et donc de supprimer les décimales des secondes
         conn = sqlite3.connect('capteur.db')                # Connexion à la DB
-        cur = conn.cursor()                                 # initialisation d'un curseur pour la DB
+        cur = conn.cursor()                                  # initialisation d'un curseur pour la DB
         print("Base de données correctement connectée à SQLite")
 
         parser = reqparse.RequestParser()                   # initialisation du parser
@@ -91,9 +91,9 @@ def capteur():
             print("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;");
             cur.execute("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;")
         elif t == "AlerteRecu":
-            cur.execute("SELECT * FROM AlerteRecu WHERE DateAjout > '"+timeLine+"';")
+            cur.execute("SELECT * FROM AlerteRecu WHERE DateAdded > '"+timeLine+"';")
         elif t == "Sensor":
-            cur.execute("SELECT * FROM Sensor WHERE DateAjout > '"+timeLine+"';")
+            cur.execute("SELECT * FROM Sensor WHERE DateAdded > '"+timeLine+"';")
         else:
             cur.execute("SELECT * FROM "+t)         #On recupere toutes les donnees d'un table
         
