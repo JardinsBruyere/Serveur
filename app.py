@@ -11,15 +11,6 @@ app = Flask(__name__)
 CORS(app)
 METEO_API_KEY = "7070e352228b6beb3dd6e4e30da0baaa"
 
-@app.route('/',methods=['GET'])
-def home():
-    ext_file = open("pageAcceuil.html", "r")
-    data = ext_file.read()
-    ext_file.close()
-    commande=""
-    commande+="/api/capteur?numTable=8&sensorid=3&amount=12&startdate=\"2020-10-20%2012:30:02\"&enddate=`\"2021-10-20%2012:30:02\""+"\n"
-    return data
-
 @app.route('/api/nbCapteur', methods=['GET'])
 def nbCapteur():
     conn = sqlite3.connect('capteur.db')
@@ -42,6 +33,27 @@ def listeTable():
     conn.close()    
     return jsonify(listeTables)
         
+@app.route('/api/change/',methods=['GET'])
+def change():
+    try:
+        sensorid=int(request.args.get('sensorid'))
+        sensorname=request.args.get('sensorname')
+        column=request.args.get('column')
+        table=request.args.get('table')
+        print("sensorid "+str(sensorid)+" sensorname= "+sensorname+ " column= "+column)
+        conn = sqlite3.connect('capteur.db')                # Connexion à la DB
+        cur = conn.cursor()
+        requete="update "+table+" set "+column+"=\""+sensorname+"\" where Id="+str(sensorid)+";"
+        print(requete)
+        cur.execute(requete)
+        conn.commit()
+        return jsonify("ok")
+    except sqlite3.Error as error:
+        print("Erreur lors de la connexion à SQLite :", error)
+    except TypeError as tp:
+        print("Type error :", tp)
+    return jsonify(None)
+ 
 @app.route('/api/capteur', methods=['GET'])
 def capteur():
     try:
@@ -93,7 +105,7 @@ def capteur():
         elif t == "AlerteRecu":
             cur.execute("SELECT * FROM AlerteRecu WHERE DateAdded > '"+timeLine+"';")
         elif t == "Sensor":
-            cur.execute("SELECT * FROM Sensor WHERE DateAdded > '"+timeLine+"';")
+            cur.execute("SELECT * FROM Sensor WHERE DateAdded ;")
         else:
             cur.execute("SELECT * FROM "+t)         #On recupere toutes les donnees d'un table
         

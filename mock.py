@@ -37,7 +37,7 @@ z=0
 for capteur in range(0,9):
     z=random.randint(-10,10)
     for i in range(0,numdays):
-        c.execute("INSERT INTO SensorReading (SensorId,DateAdded,Value) VALUES (%s, \"%s\",\"%s\");" %(str(capteur),str(date_list[i]),str(z)))
+        c.execute("INSERT INTO SensorReading (SensorId,DateAdded,Value) VALUES (%s, \"%s\",\"%s\");" %(str(capteur+1),str(date_list[i]),str(z)))
         if(random.randint(0,1)==1):
             z+=random.randint(0,10)
         else:
