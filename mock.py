@@ -30,8 +30,10 @@ for i in range(0,NbrStation):
     c.execute("insert into Station (Name) values (\"Station_%s\");"%(r.get_random_word()))
     
 for i in range(0,NbrCapteur):
-    c.execute("insert into Sensor (Type,DateAdded,Station,Name) values (%s,\"%s\",%s,\"Sensor_%s\");"%(random.randint(1,NbrTypes),str(date_list[i]),random.randint(1,NbrStation),r.get_random_word()))
-
+    mac="BC:FF:4D:4"+str(i)+":BD:DC"
+    query="insert into Sensor (Type,DateAdded,Station,Name,MacAdress) values (%s,\"%s\",%s,\"Sensor_%s\",\"%s\");"%(random.randint(1,NbrTypes),str(date_list[i]),random.randint(1,NbrStation),r.get_random_word(),str(mac))
+    print(query)
+    c.execute(query)
 
 z=0
 for capteur in range(0,9):

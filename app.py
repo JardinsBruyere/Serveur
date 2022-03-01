@@ -21,6 +21,48 @@ def nbCapteur():
     conn.close()    
     return jsonify(listeTables)
 
+@app.route('/api/addStation', methods=['GET'])
+def addStation():
+    conn = sqlite3.connect('capteur.db')
+    cur = conn.cursor()
+    cur.execute("insert into Station (Name) values (\"Nouvelles station\");")
+    conn.commit()
+    cur.close()
+    conn.close()    
+    return "ok"
+
+@app.route('/api/addType', methods=['GET'])
+def addType():
+    conn = sqlite3.connect('capteur.db')
+    cur = conn.cursor()
+    cur.execute("insert into SensorTypes (Unit) values (\"Nouvelle unite\");")
+    conn.commit()
+    cur.close()
+    conn.close()    
+    return "ok"  
+
+@app.route('/api/deleteStation', methods=['GET'])
+def deleteStation():
+    num=int(request.args.get('num'))
+    conn = sqlite3.connect('capteur.db')
+    cur = conn.cursor()
+    cur.execute("delete from Station where Id="+str(num)+";")
+    conn.commit()
+    cur.close()
+    conn.close()    
+    return "ok"
+
+@app.route('/api/deleteType', methods=['GET'])
+def deleteType():
+    num=int(request.args.get('num'))
+    conn = sqlite3.connect('capteur.db')
+    cur = conn.cursor()
+    cur.execute("delete from SensorTypes where Id="+str(num)+";")
+    conn.commit()
+    cur.close()
+    conn.close()    
+    return "ok"    
+
 @app.route('/api/listeTable', methods=['GET'])
 def listeTable():
     conn = sqlite3.connect('capteur.db')
@@ -68,7 +110,6 @@ def capteur():
         date_dt=currentTimestamp.strftime("%Y-%m-%d %H:%M:%S")      #strftime permet de forcer le format de la date et donc de supprimer les décimales des secondes
         conn = sqlite3.connect('capteur.db')                # Connexion à la DB
         cur = conn.cursor()                                  # initialisation d'un curseur pour la DB
-        print("Base de données correctement connectée à SQLite")
 
         parser = reqparse.RequestParser()                   # initialisation du parser
         parser.add_argument('time', required=False)         # ajout d'argument
@@ -81,7 +122,6 @@ def capteur():
         else:
             args = int(values[0])
         
-        print("----------Requete de donnée pour "+str(args)+" semaines----------")
         timeLine= str((currentTimestamp-timedelta(weeks = args)).strftime("%Y-%m-%d %H:%M:%S"))     # date d'aujourd'hui - nb semaines
         
         cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
@@ -121,7 +161,6 @@ def capteur():
         data = {'status': 'ok','data': key}
         cur.close()
         conn.close()
-        print("La connexion SQLite est fermée")
         return jsonify(data)
     except sqlite3.Error as error:
         print("Erreur lors de la connexion à SQLite :", error)
