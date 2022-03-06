@@ -6,13 +6,45 @@ import time,sqlite3,json,requests
 from flask_cors import CORS
 from flask import request
 
+CEND      = '\33[0m'
+CBOLD     = '\33[1m'
+CITALIC   = '\33[3m'
+CURL      = '\33[4m'
+CBLINK    = '\33[5m'
+CBLINK2   = '\33[6m'
+CSELECTED = '\33[7m'
+CBLACK  = '\33[30m'
+CRED    = '\33[31m'
+CGREEN  = '\33[32m'
+CYELLOW = '\33[33m'
+CBLUE   = '\33[34m'
+CVIOLET = '\33[35m'
+CBEIGE  = '\33[36m'
+CWHITE  = '\33[37m'
+
 
 app = Flask(__name__)
 CORS(app)
 METEO_API_KEY = "7070e352228b6beb3dd6e4e30da0baaa"
 
+@app.route('/help', methods=['GET'])
+def help():
+    helper=[]
+    helper.append({"/api/capteur":          "Nombre de capteur"})
+    helper.append({"/api/addStation":       "Ajoute automatiquement une station"})
+    helper.append({"/api/addType":          "Ajoute automatiquement un type"})
+    helper.append({"/api/deleteStation":    "Supprime une station où son Id est passé en paramètre"})
+    helper.append({"/api/deleteType":       "Supprime un type où son Id est passé en paramètre"})
+    helper.append({"/api/listeTable":       "Affiche la liste des tables"})
+    helper.append({"/api/change/":          "Modifie les valeurs d'une table où les paramètres sont passés en paramètres"})
+    helper.append({"/api/capteur":          "Récupères les contenus de tables par rapport aux paramètres passés"})
+    helper.append({"/api/meteo/":           "Retourne la météo local"})
+    return jsonify(helper)
+
+
 @app.route('/api/nbCapteur', methods=['GET'])
 def nbCapteur():
+    print(CGREEN+"Demande du nombre de capteur"+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("SELECT count(*) FROM Sensor;")
@@ -23,6 +55,7 @@ def nbCapteur():
 
 @app.route('/api/addStation', methods=['GET'])
 def addStation():
+    print(CGREEN+"Création d'une nouvelle station"+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("insert into Station (Name) values (\"Nouvelles station\");")
@@ -33,6 +66,7 @@ def addStation():
 
 @app.route('/api/addType', methods=['GET'])
 def addType():
+    print(CGREEN+"Création d'un nouveau type de capteur"+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("insert into SensorTypes (Unit) values (\"Nouvelle unite\");")
@@ -44,6 +78,7 @@ def addType():
 @app.route('/api/deleteStation', methods=['GET'])
 def deleteStation():
     num=int(request.args.get('num'))
+    print(CGREEN+"Suppression de la station numéro "+str(num)+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("delete from Station where Id="+str(num)+";")
@@ -55,6 +90,7 @@ def deleteStation():
 @app.route('/api/deleteType', methods=['GET'])
 def deleteType():
     num=int(request.args.get('num'))
+    print(CGREEN+"Suppression du type numéro "+str(num)+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("delete from SensorTypes where Id="+str(num)+";")
@@ -65,6 +101,7 @@ def deleteType():
 
 @app.route('/api/listeTable', methods=['GET'])
 def listeTable():
+    print(CGREEN+"Demande de la liste des tables disponibles"+CEND)
     conn = sqlite3.connect('capteur.db')
     cur = conn.cursor()
     cur.execute("SELECT name FROM sqlite_master WHERE type='table';")
@@ -77,6 +114,7 @@ def listeTable():
         
 @app.route('/api/change/',methods=['GET'])
 def change():
+    print(CGREEN+"Modification d'une table"+CEND)
     try:
         sensorid=int(request.args.get('sensorid'))
         sensorname=request.args.get('sensorname')
@@ -102,6 +140,7 @@ def capteur():
         numTable=int(request.args.get('numTable'))
         if(numTable==3):
             sensorid=int(request.args.get('sensorid'))
+            print(CGREEN+"Demande des relevés du capteur numéro "+str(sensorid)+CEND)
             amount=int(request.args.get('amount'))
             startdate=request.args.get('startdate')
             enddate=request.args.get('enddate')
@@ -142,8 +181,6 @@ def capteur():
                 condition+=" and DateAdded  <= \""+ str(datetime.fromtimestamp(int(enddate)))+"\" "
             print("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;");
             cur.execute("SELECT * FROM SensorReading WHERE SensorId  = "+str(sensorid)+ condition +"order by DateAdded;")
-        elif t == "AlerteRecu":
-            cur.execute("SELECT * FROM AlerteRecu WHERE DateAdded > '"+timeLine+"';")
         elif t == "Sensor":
             cur.execute("SELECT * FROM Sensor WHERE DateAdded ;")
         else:
@@ -171,6 +208,7 @@ def capteur():
 
 @app.route('/api/meteo/', methods=['GET'])
 def meteo():
+    print(CGREEN+"Demande du nombre de capteur"+CEND)
     parser = reqparse.RequestParser()                   # initialisation du parser
     parser.add_argument('place', required=False)        # ajout d'argument
     keys, values = zip(*parser.parse_args().items())    #On sépare la clé et la valeur
@@ -211,4 +249,4 @@ def meteo():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=5000, debug=True) 
+    app.run(host='0.0.0.0', port=5001, debug=True) 
