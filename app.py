@@ -30,15 +30,15 @@ METEO_API_KEY = "7070e352228b6beb3dd6e4e30da0baaa"
 @app.route('/help', methods=['GET'])
 def help():
     helper=[]
-    helper.append({"/api/capteur":          "Nombre de capteur"})
+    helper.append({"/api/nbCapteur":          "Nombre de capteur"})
     helper.append({"/api/addStation":       "Ajoute automatiquement une station"})
     helper.append({"/api/addType":          "Ajoute automatiquement un type"})
-    helper.append({"/api/deleteStation":    "Supprime une station où son Id est passé en paramètre"})
-    helper.append({"/api/deleteType":       "Supprime un type où son Id est passé en paramètre"})
+    helper.append({"/api/deleteStation":    "Supprime une station où son Id est passe en parametre"})
+    helper.append({"/api/deleteType":       "Supprime un type ou son Id est passé en parametre"})
     helper.append({"/api/listeTable":       "Affiche la liste des tables"})
-    helper.append({"/api/change/":          "Modifie les valeurs d'une table où les paramètres sont passés en paramètres"})
-    helper.append({"/api/capteur":          "Récupères les contenus de tables par rapport aux paramètres passés"})
-    helper.append({"/api/meteo/":           "Retourne la météo local"})
+    helper.append({"/api/change/":          "Modifie les valeurs d'une table ou les parametres sont passes en parametres"})
+    helper.append({"/api/capteur":          "Recuperes les contenus de tables par rapport aux parametres passes"})
+    helper.append({"/api/meteo/":           "Retourne la meteo local"})
     return jsonify(helper)
 
 
