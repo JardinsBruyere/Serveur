@@ -5,10 +5,10 @@ from random_word import RandomWords
 import numpy as np
 
 
-numdays=24*3
-NbrCapteur=3
-NbrTypes=2
-NbrStation=2
+numdays=24*40
+NbrCapteur=8
+NbrTypes=5
+NbrStation=6
 
 r = RandomWords()
 
@@ -32,7 +32,6 @@ for i in range(0,NbrStation):
 for i in range(0,NbrCapteur):
     mac="BC:FF:4D:4"+str(i)+":BD:DC"
     query="insert into Sensor (Type,DateAdded,Station,Name,MacAdress) values (%s,\"%s\",%s,\"Sensor_%s\",\"%s\");"%(random.randint(1,NbrTypes),str(date_list[i]),random.randint(1,NbrStation),r.get_random_word(),str(mac))
-    print(query)
     c.execute(query)
 
 z=0

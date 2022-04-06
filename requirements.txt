@@ -1,0 +1,4 @@
+flask_restful
+flask_cors
+random_word
+flask
