@@ -6,6 +6,7 @@ Pour télécharger et installer le serveur copier coller ceci et accepter tout c
  tar xvzf v1.0.1.tar.gz
  mv Serveur-1.0.1/ Serveur
  cd Serveur/
+ chmod 777 inst.sh
  sudo ./inst.sh
 
 ```
