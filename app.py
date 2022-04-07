@@ -27,6 +27,11 @@ app = Flask(__name__)
 CORS(app)
 METEO_API_KEY = "7070e352228b6beb3dd6e4e30da0baaa"
 
+
+@app.route('/status', methods=['GET'])
+def status():
+    return "OK"
+
 @app.route('/help', methods=['GET'])
 def help():
     helper=[]
