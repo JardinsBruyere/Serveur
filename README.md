@@ -9,8 +9,5 @@ Pour télécharger et installer le serveur copier coller ceci et accepter tout c
  sudo ./inst.sh
 
 ```
-<<<<<<< HEAD
 
 Pour accéder à la face d'administration, vous pouvez aller sur l'adresse ip de votre serveur en ajoutant derriere ":1801" par exemple "127.0.0.1:1801"
-=======
->>>>>>> a4b8b6e1b0bc8aab793299ee6c2537454e94696b
