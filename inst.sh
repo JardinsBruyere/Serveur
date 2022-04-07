@@ -56,6 +56,7 @@ sudo apt-get install python3
 sudo apt-get install python3-pip
 sudo apt install php7.3
 sudo apt-get install php-curl
+sudo pip3 install -r requirements.txt
 
 mkdir log
 
