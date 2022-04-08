@@ -1,6 +1,20 @@
 div{
-	border: 2px solid;
 	width: max-content; 
 	padding: 10px;
-	border-radius: 30px;
 }
+
+hr{
+	height: 1px;
+	border: 0;
+	color: black;
+	background-color: black;
+}
+
+/* Fix table head */
+.tableFixHead    { overflow: auto; height: 400px; }
+.tableFixHead th { position: sticky; top: 0; }
+
+/* Just common table stuff. */
+table  { border-collapse: collapse; width: 100%; }
+th, td { padding: 8px 16px; }
+th     { background:#eee; }

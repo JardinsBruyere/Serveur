@@ -3,6 +3,7 @@
       
 <head>
     <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>
         Gestionnaire serveur
     </title>
@@ -20,7 +21,7 @@
     <br>
     <br>
       
-    <div>
+    <div class="card bg-primary text-white">
     <?php
         if(array_key_exists('StateApi', $_POST)) {
             StateApi();
@@ -42,10 +43,10 @@
   
     <form method="post">
         <input type="submit" name="StateApi"
-                class="button" value="Etat de l'api" />
+                class="button btn btn-primary" value="Etat de l'api" />
           
         <input type="submit" name="StateListen"
-                class="button" value="Etat du listen" />
+                class="btn btn-primary button" value="Etat du listen" />
     </form>
     </div>
     <br>
@@ -95,14 +96,59 @@
         Statistiques :
     </h3>
     <?php
-        $output = shell_exec("du -sh capteur.db | cut -f1 | sed -e \"s/ //g\"");
-        echo "<h4>Espace restant (en octet): :${output}";
-        $output2 = shell_exec("df . | cut -d ' ' -f13");
-        echo "<h4>Espace occupé par la base de donnée : :$output2";
+        $output2 = shell_exec("du -sh capteur.db | cut -f1 | sed -e \"s/ //g\"");
+        $output = shell_exec("df . | cut -d ' ' -f13");
+        echo "<h4>Espace restant (en octet): ${output}";
+        echo "<h4>Espace occupé par la base de donnée : $output2";
         
     ?>
     </div>
     <br>
+    <div>
+    <h3>
+        Liste des tables :
+    </h3>
+    <?php
+    $connection = new SQLite3('capteur.db');
+    if($connection){
+       $tablesquery1 = $connection->query("SELECT name FROM sqlite_master WHERE type='table';");
+        while ($table = $tablesquery1->fetchArray(SQLITE3_ASSOC)) {
+            $currentTable=$table['name'];
+            if($currentTable!="sqlite_sequence"){
+                echo '<hr>';
+                echo "La table \"$currentTable\" contient:";
+                echo '<div class="tableFixHead">';
+                $tablesquery2 = $connection->query("PRAGMA table_info($currentTable);");
+                $myArray = []; 
+                while ($table2 = $tablesquery2->fetchArray(SQLITE3_ASSOC)['name']) {
+                    $myArray[]=$table2;
+                }
+
+                $results = $connection->query("SELECT * FROM $currentTable");
+                echo '<table class="table-wrap table">';
+                echo '<thead>';
+                echo '<tr class ="thead-dark">';
+                foreach($myArray as $currentCol){
+                  echo "<td> $currentCol </td>";
+                }
+               echo '</tr>';
+                echo '</thead>';
+                echo '<tbody>';
+                while($row=$results->fetchArray(SQLITE3_ASSOC)){
+                    echo '<tr>';
+                    foreach($myArray as $currentCol){
+                      echo "<td>$row[$currentCol] </td>";
+                    }
+                    echo '</tr>';
+                }
+                echo '</tbody>';
+                echo '</table>';
+                echo '</div>';
+            }
+        }
+    }
+    ?>
+    </div>
 </head>
   
 </html>
