@@ -2,9 +2,9 @@
 
 Pour télécharger et installer le serveur copier coller ceci et accepter tout ce qu'il demande aveuglement :
 ```
- wget -c https://github.com/JardinsBruyere/Serveur/archive/refs/tags/v1.1.0.tar.gz
- tar xvzf v1.1.0.tar.gz
- mv Serveur-1.1.0/ Serveur
+ wget -c https://github.com/JardinsBruyere/Serveur/archive/refs/tags/v1.0.1.tar.gz
+ tar xvzf v1.0.1.tar.gz
+ mv Serveur-1.0.1/ Serveur
  cd Serveur/
  chmod 777 inst.sh
  sudo ./inst.sh
