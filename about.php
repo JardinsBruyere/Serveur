@@ -14,7 +14,7 @@
 
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
-
+    <link rel="icon" href="favicon_io/favicon.ico">
 
     <title>
         Gestionnaire serveur
@@ -22,60 +22,21 @@
 </head>
 
 <body>
-<div class="wrapper">
-  <div class="log"></div>
 
-      <div id="header-margin"></div>
-        <!-- Page Content  -->
-        <div id="content">
+    <div class="wrapper">
+      <div class="log"></div>
 
-          <div class="log2"></div>
-        <div>
-        <script src="function.js"></script>
-    <h3>
-        Liste des tables :
-    </h3>
-    <?php
-    $connection = new SQLite3('capteur.db');
-    if($connection){
-       $tablesquery1 = $connection->query("SELECT name FROM sqlite_master WHERE type='table';");
-        while ($table = $tablesquery1->fetchArray(SQLITE3_ASSOC)) {
-            $currentTable=$table['name'];
-            if($currentTable!="sqlite_sequence"){
-                echo '<hr>';
-                echo "La table \"$currentTable\" contient:";
-                echo '<div class="tableFixHead">';
-                $tablesquery2 = $connection->query("PRAGMA table_info($currentTable);");
-                $myArray = [];
-                while ($table2 = $tablesquery2->fetchArray(SQLITE3_ASSOC)['name']) {
-                    $myArray[]=$table2;
-                }
+          <div id="header-margin"></div>
+            <!-- Page Content  -->
+            <div id="content">
 
-                $results = $connection->query("SELECT * FROM $currentTable");
-                echo '<table class="table-wrap table sortable maTable">';
-                echo '<thead>';
-                echo '<tr class ="thead-dark">';
-                foreach($myArray as $currentCol){
-                  echo "<td> $currentCol </td>";
-                }
-               echo '</tr>';
-                echo '</thead>';
-                echo '<tbody>';
-                while($row=$results->fetchArray(SQLITE3_ASSOC)){
-                    echo '<tr>';
-                    foreach($myArray as $currentCol){
-                      echo "<td>$row[$currentCol] </td>";
-                    }
-                    echo '</tr>';
-                }
-                echo '</tbody>';
-                echo '</table>';
-                echo '</div>';
-            }
-        }
-    }
-    ?>
-    </div>
+              <div class="log2"></div>
+            <div>
+            <script src="function.js"></script>
+
+            Florian code tout le site et c'est marrant
+
+    <br>
      <div class="overlay"></div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

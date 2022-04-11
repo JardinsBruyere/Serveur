@@ -9,6 +9,10 @@ hr{
 	background-color: black;
 }
 
+h1 {
+    padding: inherit;
+}
+
 /* Fix table head */
 .tableFixHead    { overflow: auto; height: 200px; }
 .tableFixHead th { position: sticky; top: 0; }
@@ -20,8 +24,49 @@ hr{
     background-color: #DCDCDC;
 }
 
-a {
+div#content {
+    align-items: center;
+    place-content: center;
+    size: a4;
+    text-align: center;
+}
+
+tr.thead-dark {
+    background-color: darkgray;
+}
+
+ul.list-unstyled.components {
+    text-align: center;
+}
+
+ul.list-unstyled.components {
+    text-align: -webkit-center;
+}
+
+a.blackColor.sousCat {
+    background-color: white;
+    border-radius: 10% / 50%;
+    width: 80%;
+}
+
+a.blackColor {
+    background-color: lavender;
+    border-radius: 10% / 50%;
+}
+
+nav.navbar.navbar-expand-lg.navbar-light.bg-light {
+    position: fixed;
+    padding: 10px 40px;
+    width: -webkit-fill-available;
+    top: 0px;
+}
+
+a{
     color: #000000;
+}
+
+#header-margin {
+    padding-top: 5rem;
 }
 
 /*
@@ -152,11 +197,6 @@ a:focus {
 #sidebar ul li a:hover {
     color: #7386D5;
     background: #fff;
-}
-
-#sidebar ul li.active>a,
-a[aria-expanded="true"] {
-    background: #6d7fcc;
 }
 
 a[data-toggle="collapse"] {
