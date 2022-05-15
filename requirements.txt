@@ -1,4 +1,6 @@
 flask_restful
 flask_cors
 random_word
-flask
+flask~=2.1.2
+requests~=2.27.1
+pytest~=7.1.2
